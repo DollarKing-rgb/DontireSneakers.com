@@ -5,6 +5,7 @@ import Categories from "../components/Categories";
 import FeaturedCollection from "../components/FeaturedCollection";
 import WhyShop from "../components/WhyShop";
 import CustomerReviews from "../components/CustomerReviews";
+import Faq from "../components/Faq";
 
 type IconProps = {
   size?: number;
@@ -368,6 +369,7 @@ const StorefrontLayout = () => {
       <FeaturedCollection />
       <WhyShop />
       <CustomerReviews />
+      <Faq />
     </main>
   );
 };
