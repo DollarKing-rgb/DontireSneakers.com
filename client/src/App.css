@@ -437,6 +437,7 @@ a {
     left: 1.15rem;
     right: auto;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
