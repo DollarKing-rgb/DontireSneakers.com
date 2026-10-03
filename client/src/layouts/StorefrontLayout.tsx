@@ -5,6 +5,10 @@ type IconProps = {
   size?: number;
 };
 
+type HeartIconProps = IconProps & {
+  filled?: boolean;
+};
+
 const slides = [
   {
     image:
@@ -71,6 +75,49 @@ const shoeCategories = [
   },
 ];
 
+const bestSellers = [
+  {
+    name: "Court Classic",
+    type: "Everyday sneakers",
+    price: "KES 6,500",
+    accent: "#d87955",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=90",
+  },
+  {
+    name: "The City Runner",
+    type: "Sports shoes",
+    price: "KES 7,800",
+    accent: "#2c2926",
+    image:
+      "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=1000&q=90",
+  },
+  {
+    name: "Terrain Lace-Up",
+    type: "Casual boots",
+    price: "KES 9,200",
+    accent: "#7d8873",
+    image:
+      "https://images.unsplash.com/photo-1520639888713-7851133b1ed0?auto=format&fit=crop&w=1000&q=90",
+  },
+  {
+    name: "Clean Line Loafer",
+    type: "Official shoes",
+    price: "KES 8,400",
+    accent: "#ba825d",
+    image:
+      "https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=1000&q=90",
+  },
+  {
+    name: "Weekend Slide",
+    type: "Open shoes",
+    price: "KES 3,200",
+    accent: "#8d7868",
+    image:
+      "https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=1000&q=90",
+  },
+];
+
 export function BrandMark({ size = 32 }: IconProps) {
   return (
     <svg
@@ -129,6 +176,14 @@ function CloseIcon({ size = 25 }: IconProps) {
   );
 }
 
+function HeartIcon({ filled = false, size = 21 }: HeartIconProps) {
+  return (
+    <svg aria-hidden="true" fill={filled ? "currentColor" : "none"} height={size} viewBox="0 0 24 24" width={size}>
+      <path d="M20.8 8.8c0 5.4-8.8 10.2-8.8 10.2S3.2 14.2 3.2 8.8A4.6 4.6 0 0 1 12 6.1a4.6 4.6 0 0 1 8.8 2.7Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
 export function ArrowIcon({ size = 18 }: IconProps) {
   return (
     <svg aria-hidden="true" fill="none" height={size} viewBox="0 0 24 24" width={size}>
@@ -141,8 +196,17 @@ const StorefrontLayout = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [likedProducts, setLikedProducts] = useState<string[]>([]);
   const shouldReduceMotion = useReducedMotion();
   const activeContent = slides[activeSlide];
+
+  const toggleLikedProduct = (productName: string) => {
+    setLikedProducts((current) => (
+      current.includes(productName)
+        ? current.filter((name) => name !== productName)
+        : [...current, productName]
+    ));
+  };
 
   return (
     <main className="storefront-shell">
@@ -295,8 +359,8 @@ const StorefrontLayout = () => {
                       loading="lazy"
                       src={category.image}
                     />
-                    <span className="absolute inset-0 z-10 bg-gradient-to-b from-[#0e0906]/[.03] via-transparent to-[#0e0906]/80" />
-                    <span className="absolute bottom-0 left-0 right-0 z-20 grid gap-2 bg-gradient-to-b from-[#17100d]/35 via-[#17100d]/75 to-[#17100d]/95 px-6 pb-6 pt-5 text-white">
+                    <span aria-hidden="true" className="absolute inset-0 z-10 bg-gradient-to-t from-[#17100d]/95 via-[#17100d]/55 to-transparent" />
+                    <span className="absolute bottom-0 left-0 right-0 z-20 grid gap-2 px-6 pb-6 pt-24 text-white">
                       <span className="text-[.67rem] font-semibold uppercase tracking-[.15em] text-white">{category.detail}</span>
                       <strong className="font-[Manrope,sans-serif] text-[clamp(1.55rem,2.6vw,2.2rem)] font-medium leading-none tracking-[-.055em]">{category.name}</strong>
                       <span className="mt-2 inline-flex w-fit items-center gap-2 text-[.77rem] font-bold text-white">
@@ -309,6 +373,73 @@ const StorefrontLayout = () => {
               </div>
             ))}
           </motion.div>
+        </div>
+      </section>
+
+      <section className="bg-[#f3eee9] py-[clamp(4.8rem,9vw,8rem)] text-[#241812]" id="best-sellers">
+        <div className="mx-auto mb-[clamp(2.2rem,4vw,3.8rem)] flex max-w-[112rem] items-end justify-between px-[clamp(1.35rem,5vw,5.6rem)] max-md:grid max-md:items-start max-md:gap-[1.6rem]">
+          <div>
+            <p className="mb-4 text-[.72rem] font-bold uppercase tracking-[.18em] text-[#9b7962]">The pairs people love</p>
+            <h2 className="m-0 font-[Manrope,sans-serif] text-[clamp(2.7rem,5vw,5.4rem)] font-medium leading-[.95] tracking-[-.07em]">Best sellers.</h2>
+          </div>
+          <a
+            className="inline-flex items-center gap-3 border-b border-[#241812]/35 pb-2 text-[.78rem] font-bold transition-[border-color,gap] duration-200 hover:gap-4 hover:border-[#241812]"
+            href="/collections?category=Best%20sellers"
+          >
+            View all best sellers
+            <ArrowIcon />
+          </a>
+        </div>
+
+        <div className="mx-auto max-w-[112rem] overflow-hidden">
+          <div
+            aria-label="Best seller products"
+            className="flex snap-x snap-mandatory gap-5 overflow-x-auto px-[clamp(1.35rem,5vw,5.6rem)] pb-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="region"
+            tabIndex={0}
+          >
+            {bestSellers.map((product) => {
+              const isLiked = likedProducts.includes(product.name);
+
+              return (
+                <article
+                  className="group relative flex h-[31rem] w-[clamp(18rem,28vw,25rem)] shrink-0 snap-start flex-col overflow-hidden rounded-[1.2rem] border border-[#241812]/15 bg-[#fbfaf8] px-6 pb-6 pt-7 transition-[box-shadow,transform] duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(36,24,18,.1)] max-md:h-[27rem] max-md:w-[18.5rem]"
+                  key={product.name}
+                >
+                  <span aria-hidden="true" className="absolute left-0 top-11 h-12 w-1" style={{ backgroundColor: product.accent }} />
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="mb-2 text-[.82rem] text-[#9a948f]">{product.type}</p>
+                      <h3 className="m-0 font-[Manrope,sans-serif] text-[1.2rem] font-semibold tracking-[-.04em]">{product.name}</h3>
+                    </div>
+                    <button
+                      aria-label={`${isLiked ? "Remove" : "Add"} ${product.name} ${isLiked ? "from" : "to"} favourites`}
+                      aria-pressed={isLiked}
+                      className={`mt-[-.35rem] inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors duration-200 ${isLiked ? "border-[#241812] bg-[#241812] text-white" : "border-[#241812]/15 text-[#241812] hover:border-[#241812]/40"}`}
+                      onClick={() => toggleLikedProduct(product.name)}
+                      type="button"
+                    >
+                      <HeartIcon filled={isLiked} />
+                    </button>
+                  </div>
+
+                  <div className="flex min-h-0 flex-1 items-center justify-center px-1 py-5">
+                    <img
+                      alt={product.name}
+                      className="h-full max-h-[17rem] w-full object-contain mix-blend-multiply transition-transform duration-700 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-[1.04]"
+                      loading="lazy"
+                      src={product.image}
+                    />
+                  </div>
+
+                  <div>
+                    <p className="mb-2 text-[.78rem] text-[#9a948f]">Price</p>
+                    <strong className="font-[Manrope,sans-serif] text-[1.35rem] font-semibold tracking-[-.04em]">{product.price}</strong>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 
