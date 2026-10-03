@@ -6,6 +6,7 @@ import AboutPage from "./pages/AboutPage";
 import StorefrontLayout from "./layouts/StorefrontLayout";
 import Footer from "./components/Footer";
 import FloatingActions from "./components/FloatingActions";
+import AnnouncementBar from "./components/AnnouncementBar";
 
 function App() {
   const [pathname, setPathname] = useState(() => window.location.pathname);
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <>
+      <AnnouncementBar />
       {page}
       <Footer />
       <FloatingActions pathname={pathname} />
