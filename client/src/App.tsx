@@ -4,6 +4,8 @@ import CollectionsPage from "./pages/CollectionsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import AboutPage from "./pages/AboutPage";
 import StorefrontLayout from "./layouts/StorefrontLayout";
+import Footer from "./components/Footer";
+import FloatingActions from "./components/FloatingActions";
 
 function App() {
   const [pathname, setPathname] = useState(() => window.location.pathname);
@@ -15,20 +17,26 @@ function App() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  let page = <StorefrontLayout />;
+
   if (pathname === "/collections") {
-    return <CollectionsPage />;
-  }
-
-  if (pathname.startsWith("/products/")) {
-    return <ProductDetailsPage slug={decodeURIComponent(pathname.slice("/products/".length))} />;
-  }
-
-  if (pathname === "/about") {
-    return <AboutPage />;
+    page = <CollectionsPage />;
+  } else if (pathname.startsWith("/products/")) {
+    page = (
+      <ProductDetailsPage
+        slug={decodeURIComponent(pathname.slice("/products/".length))}
+      />
+    );
+  } else if (pathname === "/about") {
+    page = <AboutPage />;
   }
 
   return (
-    <StorefrontLayout />
+    <>
+      {page}
+      <Footer />
+      <FloatingActions pathname={pathname} />
+    </>
   );
 }
 

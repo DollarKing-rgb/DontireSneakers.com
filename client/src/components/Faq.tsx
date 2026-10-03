@@ -46,7 +46,7 @@ function Faq() {
   return (
     <section
       aria-labelledby="faq-heading"
-      className="bg-[#f8f1ed] py-[clamp(4.5rem,9vw,8rem)] text-[#241812]"
+      className="bg-[#f3eee9] py-[clamp(3rem,4vw,4rem)] text-[#241812]"
       id="faq"
     >
       <div className="mx-auto grid max-w-[112rem] gap-[clamp(2.5rem,6vw,7rem)] px-[clamp(1.35rem,5vw,5.6rem)] min-[900px]:grid-cols-[minmax(0,.8fr)_minmax(0,1.2fr)]">
